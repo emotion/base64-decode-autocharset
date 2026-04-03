@@ -1,0 +1,18 @@
+[
+    {
+        "caption": "Base64: Decode (Auto Charset)",
+        "command": "base64_decode_auto_charset"
+    },
+    {
+        "caption": "Base64: Decode to New Tab (Auto Charset)",
+        "command": "base64_decode_to_new_tab"
+    },
+    {
+        "caption": "Base64: Encode (GB18030)",
+        "command": "base64_encode_gb18030"
+    },
+    {
+        "caption": "Base64: Encode (UTF-8)",
+        "command": "base64_encode_utf8"
+    }
+]

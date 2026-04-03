@@ -1,0 +1,15 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+*.sublime-workspace
+*.sublime-project
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# WorkBuddy
+.workbuddy/

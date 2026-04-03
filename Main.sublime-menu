@@ -1,0 +1,31 @@
+[
+    {
+        "caption": "Edit",
+        "id": "edit",
+        "children": [
+            { "caption": "-" },
+            {
+                "caption": "Base64 Auto Charset",
+                "children": [
+                    {
+                        "caption": "Decode (Auto Charset)",
+                        "command": "base64_decode_auto_charset"
+                    },
+                    {
+                        "caption": "Decode to New Tab",
+                        "command": "base64_decode_to_new_tab"
+                    },
+                    { "caption": "-" },
+                    {
+                        "caption": "Encode (GB18030)",
+                        "command": "base64_encode_gb18030"
+                    },
+                    {
+                        "caption": "Encode (UTF-8)",
+                        "command": "base64_encode_utf8"
+                    }
+                ]
+            }
+        ]
+    }
+]
