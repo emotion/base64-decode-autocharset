@@ -48,11 +48,20 @@ pip install chardet -t ~/Library/Application\ Support/Sublime\ Text/Lib/python38
 | `Base64: Encode (GB18030)` | 以 GB18030 编码后转 Base64 |
 | `Base64: Encode (UTF-8)` | 以 UTF-8 编码后转 Base64 |
 
-### 右键菜单
-选中文本后右键，可以看到 `Base64 Auto Charset` 子菜单。
-
 ### 主菜单
 `Edit` → `Base64 Auto Charset` 子菜单。
+
+### 自定义快捷键（可选）
+插件默认不绑定任何快捷键。如需绑定，在 `Preferences` → `Key Bindings` 中添加：
+
+```json
+[
+    { "keys": ["ctrl+shift+d"], "command": "base64_decode_auto_charset" },
+    { "keys": ["ctrl+shift+e"], "command": "base64_encode_gb18030" },
+    { "keys": ["ctrl+shift+u"], "command": "base64_encode_utf8" },
+    { "keys": ["ctrl+shift+alt+d"], "command": "base64_decode_to_new_tab" }
+]
+```
 
 ## 使用场景
 
@@ -102,8 +111,6 @@ python3 test_base64_auto_charset.py
 base64-decode-autocharset/
 ├── Base64AutoCharset.py              # 插件主代码
 ├── Base64AutoCharset.sublime-commands # 命令面板配置
-├── Default.sublime-keymap            # 快捷键配置
-├── Context.sublime-menu              # 右键菜单
 ├── Main.sublime-menu                 # 主菜单
 ├── test_base64_auto_charset.py       # 测试脚本
 └── README.md                         # 本文件
