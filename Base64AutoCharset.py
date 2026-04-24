@@ -12,7 +12,7 @@ Works with selected text or entire file content.
 import sublime
 import sublime_plugin
 import base64
-import codecs
+import re
 
 
 def detect_charset(raw_bytes):
@@ -105,7 +105,6 @@ def _chardet_detect(raw_bytes):
 
 def is_valid_base64(text):
     """Check if the given text is valid base64."""
-    import re
     # Remove whitespace
     text = text.strip()
     if not text:
