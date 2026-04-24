@@ -1,58 +1,57 @@
-# Base64 Auto Charset - Sublime Text Plugin
+# Base64 Auto Charset
 
-一个 Sublime Text 插件，支持 Base64 解码时自动检测字符集（UTF-8、GB18030/GBK/GB2312 等），以及使用指定字符集进行 Base64 编码。
+A Sublime Text plugin for Base64 decoding with automatic charset detection
+(UTF-8, GB18030/GBK/GB2312, Big5, EUC-JP, Shift_JIS, EUC-KR, etc.), and
+Base64 encoding with GB18030 or UTF-8 charset.
 
-## 功能
+## Features
 
-### 🔓 Base64 解码（自动字符集检测）
-- 自动检测 Base64 解码后的字节流编码格式
-- 支持 UTF-8、UTF-8 BOM、GB18030/GBK/GB2312、Big5、EUC-JP、Shift_JIS、EUC-KR 等
-- 使用 `chardet` 库增强检测准确性（可选依赖）
-- 支持无 padding 的 base64 字符串
-- 可在原位替换或在新标签页中打开
+### Base64 Decode (with automatic charset detection)
+- Automatically detects the charset of the decoded bytes
+- Supports UTF-8, UTF-8 with BOM, GB18030/GBK/GB2312, Big5, EUC-JP, Shift_JIS, EUC-KR, and more
+- Uses the `chardet` library for enhanced detection when available (optional)
+- Handles Base64 strings with or without padding
+- Can replace selection in-place or open result in a new tab
 
-### 🔒 Base64 编码
-- **GB18030 编码**：将选中文本以 GB18030 字符集编码后转为 Base64
-- **UTF-8 编码**：将选中文本以 UTF-8 字符集编码后转为 Base64
+### Base64 Encode
+- **GB18030 Encode**: encode the selected text with GB18030 charset, then Base64
+- **UTF-8 Encode**: encode the selected text with UTF-8 charset, then Base64
 
-## 安装
+## Installation
 
-### 方法一：手动安装
-1. 打开 Sublime Text，菜单选择 `Preferences` → `Browse Packages...`
-2. 将整个 `base64-decode-autocharset` 文件夹复制到 `Packages` 目录下
-3. 重启 Sublime Text
+### Via Package Control (recommended, once accepted)
 
-### 方法二：软链接（开发模式）
-```bash
-ln -s /path/to/base64-decode-autocharset ~/Library/Application\ Support/Sublime\ Text/Packages/Base64AutoCharset
-```
+1. Open the Command Palette (`Cmd+Shift+P` / `Ctrl+Shift+P`)
+2. Run `Package Control: Install Package`
+3. Search for `Base64AutoCharset` and install
 
-### 可选：安装 chardet
-Sublime Text 4 使用 Python 3.8，可以安装 `chardet` 提高字符集检测准确性：
-```bash
-# 进入 Sublime Text 的 Python lib 目录安装
-pip install chardet -t ~/Library/Application\ Support/Sublime\ Text/Lib/python38
-```
+### Manual installation
 
-> 注意：不安装 chardet 也可以正常使用，插件内置了常见字符集的检测逻辑。
+1. In Sublime Text, go to `Preferences` -> `Browse Packages...`
+2. Copy the `Base64AutoCharset` folder into the `Packages` directory
+3. Restart Sublime Text
 
-## 使用方法
+## Usage
 
-### 命令面板（主要方式）
-按 `Cmd+Shift+P`（macOS）或 `Ctrl+Shift+P`（Windows/Linux），输入 `Base64`：
+All commands are available through the Command Palette. Select some text first
+(or none, to operate on the entire file), then open the Command Palette with
+`Cmd+Shift+P` / `Ctrl+Shift+P` and type `Base64`:
 
-| 命令 | 功能 |
-|------|------|
-| `Base64: Decode (Auto Charset)` | 解码并自动检测字符集，原位替换 |
-| `Base64: Decode to New Tab (Auto Charset)` | 解码到新标签页，不修改原文 |
-| `Base64: Encode (GB18030)` | 以 GB18030 编码后转 Base64 |
-| `Base64: Encode (UTF-8)` | 以 UTF-8 编码后转 Base64 |
+| Command | Description |
+|---------|-------------|
+| `Base64: Decode (Auto Charset)` | Decode Base64 in place, auto-detect charset |
+| `Base64: Decode to New Tab (Auto Charset)` | Decode into a new tab, keep the original |
+| `Base64: Encode (GB18030)` | Encode text as GB18030, then Base64 |
+| `Base64: Encode (UTF-8)` | Encode text as UTF-8, then Base64 |
 
-### 主菜单
-`Edit` → `Base64 Auto Charset` 子菜单。
+The same commands are also available from the main menu under
+`Edit -> Base64 Auto Charset`.
 
-### 自定义快捷键（可选）
-插件默认不绑定任何快捷键。如需绑定，在 `Preferences` → `Key Bindings` 中添加：
+### Optional key bindings
+
+This plugin does not bind any keys by default, to avoid conflicts with other
+packages. If you want key bindings, add them to your
+`Preferences -> Key Bindings`, for example:
 
 ```json
 [
@@ -63,59 +62,58 @@ pip install chardet -t ~/Library/Application\ Support/Sublime\ Text/Lib/python38
 ]
 ```
 
-## 使用场景
+## Use cases
 
-### 企业邮箱开发
-在处理邮件协议（SMTP/IMAP）时，邮件头部的 Subject、From、To 等字段经常使用 Base64 编码，且可能是 GB18030 或 UTF-8 字符集：
+### Chinese enterprise email / MIME debugging
+
+MIME headers in enterprise email (Subject, From, To, attachment filenames, ...)
+are often Base64-encoded, and the underlying bytes may be GB18030/GBK rather
+than UTF-8. Select the encoded string and run `Base64: Decode (Auto Charset)`
+to get the original text with the correct charset detected automatically:
 
 ```
-# 邮件头中的 Base64 编码
 Subject: =?gb18030?B?xOO6w8rAvec=?=
-# 选中 "xOO6w8rAvec=" 后按 Ctrl+Shift+D
-# 自动解码为：你好世界（检测到 GB18030 字符集）
+# select "xOO6w8rAvec=" and run Base64: Decode (Auto Charset)
+# -> 你好世界  (detected charset: GB18030)
 ```
 
-### 调试接口数据
-API 返回的 Base64 编码数据，可直接选中后解码查看原文。
+### API response inspection
 
-## 字符集检测策略
+Base64-encoded payloads returned from APIs can be decoded in place to inspect
+their original content, regardless of whether the server uses UTF-8 or a
+legacy Chinese encoding.
 
-检测顺序：
-1. **UTF-8 BOM** - 检查 `\xef\xbb\xbf` 头部
-2. **UTF-8** - 尝试 UTF-8 解码，如含非 ASCII 字节则用 chardet 辅助判断
-3. **GB18030** - 尝试 GB18030 解码（兼容 GBK、GB2312）
-4. **其他 CJK** - 依次尝试 Big5、EUC-JP、Shift_JIS、EUC-KR
-5. **chardet 检测** - 使用 chardet 库进行统计分析
-6. **Latin-1 兜底** - 最后使用 Latin-1（永远不会失败）
+## Charset detection strategy
 
-## 测试
+Detection order:
+
+1. **UTF-8 BOM** - check for the `\xef\xbb\xbf` prefix
+2. **UTF-8** - try UTF-8, using `chardet` to disambiguate when non-ASCII bytes are present
+3. **GB18030** - try GB18030 (a superset of GBK and GB2312)
+4. **Other CJK encodings** - try Big5, EUC-JP, Shift_JIS, EUC-KR in order
+5. **chardet detection** - statistical detection via the `chardet` library
+6. **Latin-1 fallback** - never fails; used as a last resort
+
+The `chardet` library is used only when it is already available (e.g. bundled
+with Sublime Text 4 or installed manually); the plugin works without it, with
+a slightly reduced accuracy for ambiguous cases.
+
+## Privacy
+
+This plugin runs entirely locally. No text is sent to any external service.
+
+## Testing
+
+A standalone test suite is provided for the core encode/decode logic:
 
 ```bash
 python3 test_base64_auto_charset.py
 ```
 
-测试覆盖 9 组共 48 个测试用例：
-- UTF-8 Base64 解码
-- GB18030 Base64 解码
-- GB18030 Base64 编码
-- UTF-8/GB18030 双向 Round-trip
-- Base64 格式验证
-- 边界情况
-- 邮件场景模拟
-- GB18030 特殊字符
-- 编码差异验证
-
-## 文件结构
-
-```
-base64-decode-autocharset/
-├── Base64AutoCharset.py              # 插件主代码
-├── Base64AutoCharset.sublime-commands # 命令面板配置
-├── Main.sublime-menu                 # 主菜单
-├── test_base64_auto_charset.py       # 测试脚本
-└── README.md                         # 本文件
-```
+48 test cases cover UTF-8 / GB18030 encode and decode, round-trip, Base64
+validation, edge cases, real-world email scenarios, and GB18030-specific
+characters.
 
 ## License
 
-MIT
+[MIT](LICENSE)
